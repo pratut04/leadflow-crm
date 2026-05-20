@@ -104,3 +104,38 @@ export const getSalesUsers =
       });
     }
 };
+export const updateProfile =
+  async (req: any, res: any) => {
+
+    try {
+
+      const { name } = req.body;
+
+      const user =
+        await User.findById(
+          req.user.userId
+        );
+
+      if (!user) {
+
+        return res.status(404).json({
+          message: "User not found",
+        });
+      }
+
+      user.name = name;
+
+      await user.save();
+
+      res.json({
+        success: true,
+        user,
+      });
+
+    } catch (error) {
+
+      res.status(500).json({
+        message: "Server Error",
+      });
+    }
+};
