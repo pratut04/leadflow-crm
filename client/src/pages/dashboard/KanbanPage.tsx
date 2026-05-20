@@ -304,8 +304,7 @@ function KanbanPage() {
                                     >
 
                                         {(
-                                            provided,
-                                            snapshot
+                                            provided
                                         ) => (
 
                                             <div
