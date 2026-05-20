@@ -33,12 +33,38 @@ function SettingsPage() {
     setPassword,
   ] = useState("");
 
-  const handleSave = () => {
+  const handleSave =
+    async () => {
 
-    toast.success(
-      "Profile updated"
-    );
-  };
+      try {
+
+        const response =
+          await api.put(
+            "/users/profile",
+            {
+              name,
+            }
+          );
+
+        localStorage.setItem(
+          "user",
+          JSON.stringify(
+            response.data.user
+          )
+        );
+
+        toast.success(
+          "Profile updated"
+        );
+
+      } catch (error: any) {
+
+        toast.error(
+          error.response?.data?.message ||
+          "Update failed"
+        );
+      }
+    };
 
   const handlePassword = async () => {
 
