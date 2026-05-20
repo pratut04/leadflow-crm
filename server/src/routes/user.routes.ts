@@ -3,6 +3,7 @@ import express from "express";
 import {
   getSalesUsers,
    changePassword,
+    updateProfile,
 } from "../controllers/user.controller";
 
 import {
@@ -31,7 +32,11 @@ router.put(
   protect,
   changePassword
 );
-
+router.put(
+  "/profile",
+  protect,
+  updateProfile
+);
 
 
 export default router;
