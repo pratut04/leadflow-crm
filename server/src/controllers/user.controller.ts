@@ -3,6 +3,8 @@ import {
   Response,
 } from "express";
 
+import bcrypt from "bcryptjs";
+
 import User from "../models/user.model";
 
 import Lead from "../models/lead.model";
@@ -61,3 +63,44 @@ export const getSalesUsers =
       });
     }
   };
+
+
+export const changePassword =
+  async (req: any, res: any) => {
+
+    try {
+
+      const { password } = req.body;
+
+      const user =
+        await User.findById(req.user.id);
+
+      if (!user) {
+
+        return res.status(404).json({
+          message: "User not found",
+        });
+      }
+
+      const hashedPassword =
+        await bcrypt.hash(password, 10);
+
+      user.password =
+        hashedPassword;
+
+      await user.save();
+
+      res.json({
+        success: true,
+        message:
+          "Password updated",
+      });
+
+    } catch (error) {
+
+      res.status(500).json({
+        message:
+          "Server Error",
+      });
+    }
+};
