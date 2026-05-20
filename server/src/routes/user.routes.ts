@@ -2,6 +2,7 @@ import express from "express";
 
 import {
   getSalesUsers,
+   changePassword,
 } from "../controllers/user.controller";
 
 import {
@@ -23,6 +24,12 @@ router.get(
   authorizeRoles("admin"),
 
   getSalesUsers
+);
+
+router.put(
+  "/change-password",
+  protect,
+  changePassword
 );
 
 
