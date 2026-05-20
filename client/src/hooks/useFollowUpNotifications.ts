@@ -5,12 +5,32 @@ export const useFollowUpNotifications =
 
     useEffect(() => {
 
+      // SAFETY CHECK
+
+      if (
+        typeof window === "undefined"
+      ) {
+        return;
+      }
+
+      // MOBILE SAFARI FIX
+
+      if (
+        !("Notification" in window)
+      ) {
+        return;
+      }
+
+      // REQUEST PERMISSION
+
       if (
         Notification.permission !==
         "granted"
       ) {
 
         Notification.requestPermission();
+
+        return;
       }
 
       const interval =
@@ -21,8 +41,9 @@ export const useFollowUpNotifications =
 
               if (
                 !lead.followUpDate
-              )
+              ) {
                 return;
+              }
 
               const followUp =
                 new Date(
@@ -35,7 +56,7 @@ export const useFollowUpNotifications =
               const diffMinutes =
                 Math.abs(
                   now.getTime() -
-                    followUp.getTime()
+                  followUp.getTime()
                 ) /
                 1000 /
                 60;
@@ -63,4 +84,4 @@ export const useFollowUpNotifications =
         );
 
     }, [leads]);
-  };
+};
