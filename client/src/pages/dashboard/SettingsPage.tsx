@@ -8,6 +8,8 @@ import {
   User,
 } from "lucide-react";
 
+import api from "../../services/api";
+
 import toast from "react-hot-toast";
 
 import {
@@ -38,13 +40,31 @@ function SettingsPage() {
     );
   };
 
-  const handlePassword = () => {
+  const handlePassword = async () => {
 
-    toast.success(
-      "Password updated"
-    );
+    try {
 
-    setPassword("");
+      const response = await api.put(
+        "/users/change-password",
+        {
+          password,
+        }
+      );
+
+      toast.success(
+        response.data.message ||
+        "Password updated"
+      );
+
+      setPassword("");
+
+    } catch (error: any) {
+
+      toast.error(
+        error.response?.data?.message ||
+        "Failed to update password"
+      );
+    }
   };
 
   return (
