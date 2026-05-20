@@ -3,11 +3,10 @@ import {
   Response,
 } from "express";
 
-import bcrypt from "bcryptjs";
-
 import User from "../models/user.model";
 
 import Lead from "../models/lead.model";
+import bcrypt from "bcryptjs";
 
 export const getSalesUsers =
   async (
@@ -64,8 +63,7 @@ export const getSalesUsers =
     }
   };
 
-
-export const changePassword =
+  export const changePassword =
   async (req: any, res: any) => {
 
     try {
@@ -73,7 +71,9 @@ export const changePassword =
       const { password } = req.body;
 
       const user =
-        await User.findById(req.user.id);
+        await User.findById(
+          req.user.userId
+        );
 
       if (!user) {
 
